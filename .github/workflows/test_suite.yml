@@ -38,7 +38,7 @@ jobs:
         run: |
           rules=$(cat CORE_Test_Suite/rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
           echo "Rules: $rules"
-          python core.py validate -s sdtmig -v 3-3 $rules -d CORE_Test_Suite/data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/pandas-results.xlsx
+          python core.py validate -s sdtmig -v 3-3 $rules -d CORE_Test_Suite/data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/pandas-results
       - name: Pandas comparison script
         run: |
           cd CORE_Test_Suite
@@ -51,9 +51,8 @@ jobs:
         env:
           DATASET_SIZE_THRESHOLD: 0
         run: |
-          rules=$(cat rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
-          cd ..
-          python core.py validate -s sdtmig -v 3-3 $rules -d ./data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/dask-results.xlxs
+          rules=$(cat CORE_Test_Suite/rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
+          python core.py validate -s sdtmig -v 3-3 $rules -d ./data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/dask-results
       - name: Dask comparison script
         run: |
           cd CORE_Test_Suite
