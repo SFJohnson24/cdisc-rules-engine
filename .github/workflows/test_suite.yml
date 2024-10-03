@@ -70,10 +70,15 @@ jobs:
             CORE_Test_Suite/dask_comparison.xlsx
           if-no-files-found: warn
       - name: Check for differences
+        if: always()
         run: |
           if [[ "${{ env.PANDAS_DIFF }}" == "true" || "${{ env.DASK_DIFF }}" == "true" ]]; then
             echo "Differences found in either Pandas or Dask comparison"
             exit 1
-          else
+          if [[ "${{ env.PANDAS_DIFF }}" == "false" && "${{ env.DASK_DIFF }}" == "false" ]]; then
             echo "No differences found in either comparison"
+            exit 0
+          else
+            echo "Issue with comparison script"
+            exit 1
           fi
