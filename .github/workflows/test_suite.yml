@@ -1,11 +1,6 @@
-ame: CORE Test Suite Validation
+name: CORE Test Suite Validation
 on:
-  #   we will turn automatic triggers when DASK is ready
-  #   push:
-  #     branches: [main]
-  #   pull_request:
-  #     branches: [main]
-  workflow_dispatch:
+ workflow_dispatch:
 
 env:
   DATASET_SIZE_THRESHOLD: 1000000000
@@ -42,13 +37,17 @@ jobs:
       - name: Parse rule list and run validation
         run: |
           cd CORE_Test_Suite
+          echo "Current directory: $(pwd)"
+          ls -la
           rules=$(cat rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
+          echo "Rules: $rules"
           cd ..
           python core.py validate -s sdtmig -v 3-3 $rules -d CORE_Test_Suite/data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/pandas-results.xlsx
       - name: Pandas comparison script
         run: |
           cd CORE_Test_Suite
-          result=$(python ../comparison.py pandas-results.xlsx CORE-Report.xlsx pandas_comparison.xlsx)
+          python comparison.py pandas-results.xlsx CORE-Report.xlsx pandas_comparison.xlsx
+          result=$?
           echo "PANDAS_DIFF=$result" >> $GITHUB_ENV
           echo "Pandas comparison result: $result"
       - name: Run validation with Dask
@@ -61,9 +60,11 @@ jobs:
       - name: Dask comparison script
         run: |
           cd CORE_Test_Suite
-          result=$(python ../comparison.py dask-results.xlsx DASK-Report.xlsx dask_comparison.xlsx)
+          python comparison.py dask-results.xlsx DASK-Report.xlsx dask_comparison.xlsx
+          result=$?
           echo "DASK_DIFF=$result" >> $GITHUB_ENV
           echo "Dask comparison result: $result"
+          cd ..
       - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
