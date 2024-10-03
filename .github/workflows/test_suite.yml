@@ -38,7 +38,11 @@ jobs:
         run: |
           rules=$(cat CORE_Test_Suite/rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
           echo "Rules: $rules"
+          set -x
           python core.py validate -s sdtmig -v 3-3 $rules -d CORE_Test_Suite/data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/pandas-results
+          set +x
+          echo "Validation complete. Checking output file:"
+          ls -la CORE_Test_Suite/pandas-results.xlsx
       - name: Pandas comparison script
         run: |
           cd CORE_Test_Suite
