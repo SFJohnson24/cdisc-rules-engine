@@ -1,11 +1,12 @@
 name: CORE Test Suite Validation
 on:
+  workflow_dispatch:
   #   we will turn automatic triggers when DASK is ready
   #   push:
   #     branches: [main]
   #   pull_request:
   #     branches: [main]
-  workflow_dispatch:
+
 
 env:
   DATASET_SIZE_THRESHOLD: 1000000000
