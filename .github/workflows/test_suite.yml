@@ -36,16 +36,13 @@ jobs:
           python core.py update-cache
       - name: Parse rule list and run validation
         run: |
-          cd CORE_Test_Suite
-          echo "Current directory: $(pwd)"
-          ls -la
-          rules=$(cat rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
+          rules=$(cat CORE_Test_Suite/rulelist/testrulelist.txt | sed 's/^/-r /' | tr '\n' ' ')
           echo "Rules: $rules"
-          cd ..
           python core.py validate -s sdtmig -v 3-3 $rules -d CORE_Test_Suite/data -ct sdtmct-2020-03-27 -o CORE_Test_Suite/pandas-results.xlsx
       - name: Pandas comparison script
         run: |
           cd CORE_Test_Suite
+          ls -la
           python comparison.py pandas-results.xlsx CORE-Report.xlsx pandas_comparison.xlsx
           result=$?
           echo "PANDAS_DIFF=$result" >> $GITHUB_ENV
