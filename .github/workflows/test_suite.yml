@@ -49,7 +49,7 @@ jobs:
       - name: Pandas comparison script
         run: |
           cd CORE_Test_Suite
-          result=$(python ../comparison.py pandas-results.xlsx CORE-Report.xlsx pandas_comparison.xlsx)
+          result=$(python ./comparison.py pandas-results.xlsx CORE-Report.xlsx pandas_comparison.xlsx)
           echo "PANDAS_DIFF=$result" >> $GITHUB_ENV
           echo "Pandas comparison result: $result"
       - name: Run validation with Dask
@@ -62,7 +62,7 @@ jobs:
       - name: Dask comparison script
         run: |
           cd CORE_Test_Suite
-          result=$(python ../comparison.py dask-results.xlsx DASK-Report.xlsx dask_comparison.xlsx)
+          result=$(python ./comparison.py dask-results.xlsx DASK-Report.xlsx dask_comparison.xlsx)
           echo "DASK_DIFF=$result" >> $GITHUB_ENV
           echo "Dask comparison result: $result"
       - name: Upload test results
