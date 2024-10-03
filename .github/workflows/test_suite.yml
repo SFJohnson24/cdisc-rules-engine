@@ -64,7 +64,9 @@ jobs:
           name: comparison-results
           path: |
             CORE_Test_Suite/pandas_comparison.xlsx
+            CORE_Test_Suite/pandas-results.xlsx
             CORE_Test_Suite/dask_comparison.xlsx
+            CORE_Test_Suite/dask-results.xlsx
           if-no-files-found: warn
       - name: Check for differences
         if: always()
