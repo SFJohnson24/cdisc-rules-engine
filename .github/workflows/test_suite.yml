@@ -74,7 +74,7 @@ jobs:
           if [[ "${{ env.PANDAS_DIFF }}" == "true" || "${{ env.DASK_DIFF }}" == "true" ]]; then
             echo "Differences found in either Pandas or Dask comparison"
             exit 1
-          if [[ "${{ env.PANDAS_DIFF }}" == "false" && "${{ env.DASK_DIFF }}" == "false" ]]; then
+          elif [[ "${{ env.PANDAS_DIFF }}" == "false" && "${{ env.DASK_DIFF }}" == "false" ]]; then
             echo "No differences found in either comparison"
             exit 0
           else
